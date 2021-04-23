@@ -21,6 +21,14 @@ const routes = [
     },
     component: () => import('@/views/About.vue')
   },
+  {
+    path: '/person',
+    name: 'Person',
+    meta: {
+      title: "Person"
+    },
+    component: () => import('@/views/Person.vue')
+  },
 ]
 
 const router = new VueRouter({

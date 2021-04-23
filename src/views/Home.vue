@@ -1,5 +1,6 @@
 <template>
   <div class="home-page">
+    <CreateTodo @create-todo="onSubmitClicked" />
     <div v-if="loading" class="loading">
       Loading...
     </div>
@@ -12,9 +13,11 @@
 
 <script>
 import TodoList from '@/components/TodoList';
+import CreateTodo from '@/components/CreateTodo';
 export default {
   name: 'Home',
   components: {
+    CreateTodo,
     TodoList
   },
   data: () => ({
@@ -37,6 +40,14 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+
+    onSubmitClicked(todo) {
+      if(!todo.id)
+      {
+        todo.id = this.todoList.length
+      }
+      this.todoList.push(todo);
     },
 
     onRemoveClicked(id) {

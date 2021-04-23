@@ -3,7 +3,8 @@
     <div class="app-content">
       <div id="nav">
         <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link>
+        <router-link to="/about">About</router-link> |
+        <router-link to="/person">Author</router-link>
         <h2 class="title">
           {{ $route.meta.title }}
         </h2>
@@ -12,6 +13,7 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: "App",

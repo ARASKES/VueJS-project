@@ -1,20 +1,70 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="app-content">
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/about">About</router-link>
+        <h2 class="title">
+          {{ $route.meta.title }}
+        </h2>
+      </div>
+      <router-view />
     </div>
-    <router-view/>
   </div>
 </template>
+<script>
+export default {
+  name: "App",
+  components: {},
+  data: () => ({
+    message: "Message"
+  }),
+}
+</script>
+
 
 <style lang="scss">
+
+body {
+ display: block;
+ margin: 0;
+ height: fit-content;
+ width: 100vw;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  background: #42b983;
+  padding: 30px;
+  height: 100%;
+
+  .app-content {
+    margin-top: 16vh;
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+
+    #nav {
+      a {
+        font-weight: bold;
+        color: #2c3e50;
+
+        &.router-link-exact-active {
+          color: #42b983
+        }
+      }
+    }
+  }
 }
 
 #nav {

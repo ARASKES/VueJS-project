@@ -1,60 +1,66 @@
 <template>
-  <div class="home-page">
-    <CreateTodo @create-todo="onSubmitClicked" />
-    <div v-if="loading" class="loading">
-      Loading...
-    </div>
-    <TodoList v-else-if="todoList && todoList.length" :todoList="todoList" @remove-todo="onRemoveClicked" />
-    <div v-else>
-      Ваш список дел пуст!
-    </div>
-  </div>
+	<div class="home-page">
+		<CreateTodo @create-todo="onSubmitClicked" />
+		<div v-if="loading" class="loading">
+			Loading...
+		</div>
+		<TodoList
+			v-else-if="todoList && todoList.length"
+			:todoList="todoList"
+			@remove-todo="onRemoveClicked"
+		/>
+		<div v-else>
+			Ваш список дел пуст!
+		</div>
+	</div>
 </template>
 
 <script>
 import TodoList from '@/components/TodoList';
 import CreateTodo from '@/components/CreateTodo';
 export default {
-  name: 'Home',
-  components: {
-    CreateTodo,
-    TodoList
-  },
-  data: () => ({
-    todoList: [],
-    loading: false,
-  }),
-  mounted() {
-    this.fetchTodos();
-  },
-  methods: {
-    async fetchTodos() {
-      try {
-        this.loading = true;
-        const response = await fetch(
-          'https://jsonplaceholder.typicode.com/todos',
-        );
-        this.todoList = await response.json();
-      } catch (exception) {
+	name: 'Home',
+	components: {
+		CreateTodo,
+		TodoList,
+	},
+	data: () => ({
+		todoList: [],
+		loading: false,
+	}),
+	mounted() {
+		this.fetchTodos();
+	},
+	methods: {
+		async fetchTodos() {
+			try {
+				this.loading = true;
+				const response = await fetch(
+					'https://jsonplaceholder.typicode.com/todos?_limit=50',
+				);
+				this.todoList = await response.json();
+			} catch (exception) {
+			} finally {
+				this.loading = false;
+			}
+		},
 
-      } finally {
-        this.loading = false;
-      }
-    },
+		onSubmitClicked(todo) {
+			this.todoList.push(todo);
+		},
 
-    onSubmitClicked(todo) {
-      if(!todo.id)
-      {
-        todo.id = this.todoList.length
-      }
-      this.todoList.push(todo);
-    },
-
-    onRemoveClicked(id) {
-      this.todoList = this.todoList.filter((todo) => todo.id !== id)
-    }
-  },
+		onRemoveClicked(id) {
+			this.todoList = this.todoList.filter((todo) => todo.id !== id);
+		},
+	},
 };
 </script>
 
-<style></style>template
+<style lang="scss">
+.home-page {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  width: 100%;
+}
+</style>

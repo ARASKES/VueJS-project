@@ -1,13 +1,16 @@
 <template>
 	<div class="home-page">
-		<CreateTodo @create-todo="onSubmitClicked" />
+		<CreateTodo
+			@create-todo="onSubmitClicked"
+			@refresh="fetchTodos"
+		/>
 		<div v-if="loading" class="loading">
 			Loading...
 		</div>
 		<TodoList
 			v-else-if="todoList && todoList.length"
 			:todoList="todoList"
-			@remove-todo="onRemoveClicked"
+			@refresh="fetchTodos"
 		/>
 		<div v-else>
 			Ваш список дел пуст!
@@ -18,27 +21,30 @@
 <script>
 import TodoList from '@/components/TodoList';
 import CreateTodo from '@/components/CreateTodo';
+import { fetchTodos } from '@/service/dataService';
+
 export default {
 	name: 'Home',
+
 	components: {
 		CreateTodo,
 		TodoList,
 	},
+
 	data: () => ({
 		todoList: [],
 		loading: false,
 	}),
+
 	mounted() {
 		this.fetchTodos();
 	},
+
 	methods: {
 		async fetchTodos() {
 			try {
 				this.loading = true;
-				const response = await fetch(
-					'https://jsonplaceholder.typicode.com/todos?_limit=50',
-				);
-				this.todoList = await response.json();
+				this.todoList = await fetchTodos();
 			} catch (exception) {
 			} finally {
 				this.loading = false;
@@ -47,10 +53,6 @@ export default {
 
 		onSubmitClicked(todo) {
 			this.todoList.push(todo);
-		},
-
-		onRemoveClicked(id) {
-			this.todoList = this.todoList.filter((todo) => todo.id !== id);
 		},
 	},
 };

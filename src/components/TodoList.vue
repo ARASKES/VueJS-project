@@ -4,28 +4,26 @@
 			v-for="todo in todoList"
 			:key="todo.id"
 			:todo="todo"
-			@remove-todo="onRemoveClicked"
+			@refresh="$emit('refresh')"
 		/>
 	</ul>
 </template>
 
 <script>
 import TodoItem from '@/components/TodoItem';
+
 export default {
 	name: 'TodoList',
+
 	props: {
 		todoList: {
 			type: Array,
 			required: true,
 		},
 	},
+	
 	components: {
 		TodoItem,
-	},
-	methods: {
-		onRemoveClicked(id) {
-			this.$emit('remove-todo', id);
-		},
 	},
 };
 </script>
